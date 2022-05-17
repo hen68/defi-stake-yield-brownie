@@ -13,7 +13,18 @@ export const useUnstakeTokens = () => {
     const tokenFarmContract = new Contract(tokenFarmAddress, tokenFarmInterace)
 
 
-    return useContractFunction(tokenFarmContract, "unstakeTokens", {
-        transactionName: "Unstake Tokens"
-    })
+    const { send: unstake, state: unstakeState } =
+        useContractFunction(tokenFarmContract, "unstakeTokens", {
+            transactionName: "Unstake Tokens"
+        })
+
+    const approveAndStake = (tokenAddress: string) => {
+        return unstake(tokenAddress)
+    }
+
+    return { approveAndStake, unstakeState }
+
+    // return useContractFunction(tokenFarmContract, "unstakeTokens", {
+    //     transactionName: "Unstake Tokens"
+    // })
 }
